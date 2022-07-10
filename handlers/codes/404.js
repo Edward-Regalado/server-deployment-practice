@@ -5,5 +5,5 @@ module.exports = (req, res) => {
     error: 404,
     route: req.path,
     message: 'Not Found',
-});
+  });
 };
