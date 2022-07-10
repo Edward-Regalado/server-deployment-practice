@@ -1,0 +1,19 @@
+{
+  "name": "server-deployment-practice",
+  "version": "1.0.0",
+  "description": "general process of building and deploying servers using CI & CD",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watch --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Edward-Regalado/server-deployment-practice.git"
+  },
+  "author": "Tony Regalado",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Edward-Regalado/server-deployment-practice/issues"
+  },
+  "homepage": "https://github.com/Edward-Regalado/server-deployment-practice#readme"
+}
