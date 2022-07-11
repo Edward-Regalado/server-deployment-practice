@@ -23,6 +23,12 @@ describe('Api Server', () => {
     expect(typeof response.body).toEqual('object');
   });
 
+  it('handles API path /data', async () => {
+    const response = await request.get('/data');
+    expect(response.status).toEqual(200);
+    expect(typeof response.body).toEqual('object');
+  });
+
   it('stamps routes with middleware', async () => {
     const response = await request.get('/data');
     expect(response.status).toEqual(200);
