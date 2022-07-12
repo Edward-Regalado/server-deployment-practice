@@ -1,37 +1,32 @@
-'use strict';
 
 const supertest = require('supertest');
 const server = require('../server.js');
 
 const request = supertest(server.app);
 
-describe('Api Server', () => {
-  it('handles requests to missing routes', async () => {
-    const response = await request.get('/foo');
-    expect(response.status).toEqual(404);
-  });
+describe('Node Server', () => {
+  it('says hello world', async () => {
+    // set up the test so it can do a thing
+    // Prepare the server
+    // (see above)
 
-  it('handles errors', async () => {
-    const response = await request.get('/bad');
-    expect(response.status).toEqual(500);
-    expect(response.body.route).toEqual('/bad');
-  });
+    // perform an action, that does the thing
+    // request the / route
+    const response = await request.get('/'); // The response is a promise
 
-  it('handles root path/', async () => {
-    const response = await request.get('/');
-    expect(response.status).toEqual(200);
-    expect(typeof response.body).toEqual('object');
-  });
+    // assert or expect the result of the action
+    // expect the / route to respond with hello
+    expect(response.status).toBe(200);
+    expect(response.text).toBe('Hello, World');
+});
 
-  it('handles API path /data', async () => {
+ it('returns some data', async () => {
     const response = await request.get('/data');
-    expect(response.status).toEqual(200);
-    expect(typeof response.body).toEqual('object');
-  });
 
-  it('stamps routes with middleware', async () => {
-    const response = await request.get('/data');
-    expect(response.status).toEqual(200);
-    expect(response.body.time).toBeDefined();
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      name: 'Tony',
+      role: 'Student',
+    });
   });
 });

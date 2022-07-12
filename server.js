@@ -1,29 +1,29 @@
 'use strict';
 
 const express = require('express');
-const stamper = require('./middleware/stamper.js');
 
-const notFoundHandler = require('./handlers/codes/404.js');
-const errorHandler = require('./handlers/codes/500.js');
+const hello = (req, res) => {
+  res.status(200).send('Hello, World');
+};
 
-const hello = require('./handlers/hello.js');
-const evenodd = require('./handlers/evenodd.js');
-const bad = require('./handlers/bad.js');
+const data = (req, res) => {
+  res.status(200).send({
+    name: 'Tony',
+    role: 'Student',
+  });
+};
 
 const app = express();
 
-app.get('/', stamper, hello);
-app.get('/data', stamper, evenodd);
-app.get('/bad', stamper, bad);
+app.get('/', hello);
+app.get('/data', data);
 
-app.use('*', notFoundHandler);
-app.use(errorHandler);
-
-function start(port){
-  app.listen(port, () => console.log(`Server running on port ${port}`));
+function start(port) {
+  app.listen(port, () => console.log(`Server listening on port ${port}`));
 }
 
 module.exports = {
-  app: app,
-  start: start,
+  app,
+  start,
 };
+
