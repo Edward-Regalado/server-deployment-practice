@@ -1,8 +1,7 @@
 'use strict';
 
 const validator = (req, res, next) => {
-  console.log(req.query.name);
-  next();
+  console.log("validator");
 };
 
 module.export = {
