@@ -3,12 +3,17 @@
 // IMPORTS
 
 const express = require('express');
+
+const { hello } = require('./handlers/hello.js');
+const { data } = require('./handlers/data.js');
+const { person } = require('./handlers/person.js');
+
 const { logger }  = require('./middleware/logger.js');
 const { validator } = require('./middleware/validator.js');
 
-const { error } = require('./error-handlers/404.js');
+const { error404 } = require('./error-handlers/404.js');
 const { serverError } = require('./error-handlers/500.js');
-const { nextTick } = require('process');
+
 
 const app = express();
 
@@ -17,31 +22,7 @@ app.use(express.json());
 // all routes get the logger middleware
 app.use(logger);
 
-// HANDLERS
-
-const hello = (req, res) => {
-  res.status(200).send('Hello, World');
-};
-
-const data = (req, res) => {
-  res.status(200).send({
-    name: 'Tony',
-    role: 'Student',
-  });
-};
-
-// const logger = (req, res, next) => {
-//     console.log(`logger called: ${Date.now()}, ${req.url}`);
-//     next();
-// };
-
-const person = (req, res ) => {
-    if(req.query.name){
-        res.status(200).send({name: req.params.name});
-    }
-    res.status(500).send('please enter a name');
-};
-
+// ROUTES
 
 app.get('/', hello);
 // app.get('/', (req, res) => {
@@ -56,12 +37,11 @@ app.get('/data', data);
 //     });
 // });
 
-// app.get('/person', validator, person);
+app.put('/person', validator, person);
 
-// app.use(logger);
-// app.use(validator);
-// app.use('*', error);
-// app.use(serverError);
+
+app.use('*', error404);
+app.use(serverError);
 
 
 // FUNCTIONALITY TO GET START SERVER

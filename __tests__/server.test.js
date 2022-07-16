@@ -29,4 +29,10 @@ it('Gets Student Data', async () => {
       role: 'Student',
     });
   });
+
+  it('should respond 500 on a server error', async () => {
+    const response = await request.get('/throw-error');
+
+    expect(response.status).toBe(500);
+  })
 });

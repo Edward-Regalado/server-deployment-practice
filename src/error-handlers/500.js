@@ -1,5 +1,7 @@
 'use strict';
 
+// 4 params: express knows that this anonymous function is for handling server errors
+
 const serverError = (err, req, res, next) => {
 
     const error = err.message ? err.message : err;
@@ -14,11 +16,4 @@ const serverError = (err, req, res, next) => {
 
 module.exports = {
     serverError,
-};
-// const serverError = (req, res) => {
-//     res.status(500).send('Server Error!');
-// };
-
-// module.exports = {
-//     serverError,
-// };
+}

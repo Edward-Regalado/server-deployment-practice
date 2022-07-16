@@ -1,7 +1,7 @@
  'use strict';
 
- const error = (req, res, next) => {
-    res.status(404).send('Not Found');
+ const error404 = (req, res, next) => {
+    res.status(404).send('Sorry, cannot find that!');
 
     const errorObject = {
         status: 404,
@@ -12,14 +12,6 @@
  };
 
  module.exports = {
-    error,
+    error404,
  };
 
-//  const error = (req, res) => {
-//     res.status(404).send('Not Found');
-
-//  }
-
-//  module.exports = {
-//     error,
-//  };
