@@ -3,16 +3,19 @@
 // IMPORTS
 
 const express = require('express');
-const { logger } = require('./middleware/logger.js');
+const { logger }  = require('./middleware/logger.js');
 const { validator } = require('./middleware/validator.js');
 
 const { error } = require('./error-handlers/404.js');
 const { serverError } = require('./error-handlers/500.js');
+const { nextTick } = require('process');
 
 const app = express();
 
 app.use(express.json());
-// app.use(logger);
+
+// all routes get the logger middleware
+app.use(logger);
 
 // HANDLERS
 
@@ -27,6 +30,11 @@ const data = (req, res) => {
   });
 };
 
+// const logger = (req, res, next) => {
+//     console.log(`logger called: ${Date.now()}, ${req.url}`);
+//     next();
+// };
+
 const person = (req, res ) => {
     if(req.query.name){
         res.status(200).send({name: req.params.name});
@@ -35,7 +43,7 @@ const person = (req, res ) => {
 };
 
 
-app.get('/',  hello);
+app.get('/', hello);
 // app.get('/', (req, res) => {
 //     res.status(200).send('Hello, World');
 // });

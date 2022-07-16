@@ -4,7 +4,7 @@ const server = require('../src/server.js');
 const request = supertest(server.app);
 
 describe('Node Server', () => {
-    it('Say Hello World', async () => {
+    it('Says Hello World', async () => {
         // set up the test so it can do a thing
         // Prepare the server
         // (see above)
