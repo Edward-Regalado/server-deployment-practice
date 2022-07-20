@@ -1,60 +1,85 @@
-const { Pet } = require('../models/pet');
+const { Pet } = require('../db');
 
 const createPet = async (req, res) => {
-    const { name, type, age } = req.body;
-
-    const pet = Pet.build({ name, type, age });
-
-    await pet.save();
-
-    res.status(200).send(pet);
+    try {
+        const { name, type, age } = req.body;
+        const pet = Pet.build({ name, type, age });
+        await pet.save();
+        res.status(200).send(pet);
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const listPets = async (req, res) => {
-    const pets = await Pet.findAll();
+    try {
+        const pets = await Pet.findAll();
+        res.status(200).send(pets);
+        console.log(`List of all pets added to database: \n ${JSON.stringify(pets)}`);
+    } catch (error) {
+        console.log(error);
+    }
 
-    res.status(200).send(pets);
 };
 
 const getPet = async (req, res) => {
-    const pets = await Pet.findAll({
-        where: {
-            id: req.params.id
+
+    try {
+        const pet = await Pet.findAll({
+            where: {
+                id: req.params.id
+            }
+        });
+        if (pet.length > 0) {
+            res.status(200).send(pet[0]);
+        } else {
+            res.status(404).send(`Could not find pet with id ${req.params.id}`);
         }
-    });
-    if (pets.length > 0) {
-        res.status(200).send(cars[0]);
-    } else {
-        res.status(404).send(`could not find pet with id ${req.params.id}`);
+    } catch (error) {
+        console.log(error);
     }
 };
 
 const deletePet = async (req, res) => {
-    const petCount = await Pet.findAllCountAll();
-    if (petCount === 0) {
-        res.status(404).send('No pets to delete');
-    } else {
-        await petCount.destroy({
+
+    try {
+        const pet = await Pet.destroy({
+            where: {
+                id: req.params.id,
+            },
+        });
+        if (pet >= 0) {
+            res.status(200).send(`Pet with id ${req.params.id} deleted!`);
+        } else {
+            res.status(404).send(`No pet with id ${req.params.id} to delete!`);
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const updatePet = async (req, res) => {
+
+    try {
+        const pet = await Pet.findOne({
             where: {
                 id: req.params.id,
             }
         });
-        res.status(200).send('Pet deleted!');
-    };
-}
-
-const updatePet = async (req, res) => {
-    const [ updatePet ] = await Pet.findAll({
-        where: {
-            id: req.body.id,
+        if(pet != null){
+            pet.name = req.body.name;
+            pet.type = req.body.type;
+            pet.age = req.body.age;
+            await pet.save();
+            res.status(200).send(pet);
+        } else {
+            res.status(404).send(`No pet with id ${req.params.id} to update!`);
         }
-    });
-    updateCar.name = req.body.name;
-    updateCar.type = req.body.type;
-    updateCar.age = req.body.age;
-    await updatePet.save();
-    res.status(200).send('pet was updated!');
-}
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 module.exports = {
     createPet,

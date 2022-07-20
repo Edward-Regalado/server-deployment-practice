@@ -1,60 +1,87 @@
-const { Car } = require('../db.js');
+const { Car } = require('../db');
 
 const createCar = async (req, res) => {
-    const { model, color, hp } = req.body;
-
-    const car = Car.build({ model, color, hp });
-
-    await car.save();
-
-    res.status(200).send(car);
-};
-
-const listCars = async (req, res) => {
-    const cars = await Car.findAll();
-
-    res.status(200).send(cars);
-};
-
-const getCar = async (req, res) => {
-    const cars = await Car.findAll({
-        where: {
-            id: req.params.id
-        }
-    });
-    if (cars.length > 0) {
-        res.status(200).send(cars[0]);
-    } else {
-        res.status(404).send(`could not find car with id ${req.params.id}`);
+    try {
+        const { model, color, hp } = req.body;
+        const car = Car.build({ model, color, hp });
+        await car.save()
+        res.status(200).send(car);
+        console.log(`${car.model} added to database`);
+    } catch (error) {
+        console.log(error);
     }
 };
 
-const deleteCar = async (req, res) => {
-    const carCount = await Car.findAllCountAll();
-    if (carCount === 0) {
-        res.status(404).send('No cars to delete');
-    } else {
-        await carCount.destroy({
+const listCars = async (req, res) => {
+
+    try {
+        const cars = await Car.findAll();
+        res.status(200).send(cars);
+        console.log(`List of all cars added to database: \n ${JSON.stringify(cars)}`);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const getCar = async (req, res) => {
+
+    try {
+        const car = await Car.findAll({
             where: {
                 id: req.params.id,
             }
         });
-        res.status(200).send('Car deleted!');
-    };
-}
+        if(car.length > 0) {
+            res.status(200).send(car[0]);
+            console.log(car[0]);
+        } else {
+            res.status(404).send(`Could not find car with id ${req.params.id}`);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const deleteCar = async (req, res) => {
+
+    try {
+        const car = await Car.destroy({
+            where: {
+                id: req.params.id,
+            }
+        });
+        if(car >= 1){
+            res.status(200).send(`Car with id ${req.params.id} deleted!`);
+        }
+        else {
+            res.status(404).send(`No car with id ${req.params.id} to delete!`);
+        }
+
+    } catch(err) {
+        console.log(error);
+    }
+};
 
 const updateCar = async (req, res) => {
-    const [ updateCar ] = await Car.findAll({
-        where: {
-            id: req.body.id,
+    try {
+        const car = await Car.findOne({
+            where: {
+                id: req.params.id,
+            }
+        });
+        if(car != null){
+            car.model = req.body.model;
+            car.color = req.body.color;
+            car.hp = req.body.hp;
+            await car.save();
+            res.status(200).send(car);
+        } else {
+            res.status(404).send(`No car with id ${req.params.id} to update!`);
         }
-    });
-    updateCar.model = req.body.model;
-    updateCar.color = req.body.color;
-    updateCar.hp = req.body.hp;
-    await updateCar.save();
-    res.status(200).send('car was updated!');
-}
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 module.exports = {
     createCar,

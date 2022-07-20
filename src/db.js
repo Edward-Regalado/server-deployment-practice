@@ -4,6 +4,7 @@ const { Sequelize } = require('sequelize');
 const { user } = require('./models/user');
 const { car } = require('./models/car');
 const { pet } = require('./models/pet');
+const sequelize = require('sequelize');
 
 // create the database connection
 // 'sqlite::memory: is called a "connection string". In this example, we are using in-memory data storage.
@@ -51,8 +52,8 @@ const db = new Sequelize(connection_string, {
 db.sync();
 
 module.exports = {
-    db,
-    user: user(db),
-    car: car(db),
-    pet: pet(db),
+    db: sequelize,
+    User: user(db),
+    Car: car(db),
+    Pet: pet(db),
 };

@@ -8,8 +8,8 @@ const { hello } = require('./handlers/hello.js');
 const { data } = require('./handlers/data.js');
 const { person } = require('./handlers/person.js');
 
-const { createUser, listUsers, getUser, deleteUser, updateUser } = require('./handlers/user.js');
-const { createPet, listPets, getPet, deletePet, updatePet } = require('./handlers/pet.js');
+const { createUser, listUsers, getUser, deleteUser, updateUser } = require('./handlers/user');
+const { createPet, listPets, getPet, deletePet, updatePet } = require('./handlers/pet');
 const { createCar, listCars, getCar, deleteCar, updateCar } = require('./handlers/car.js');
 
 const { logger }  = require('./middleware/logger.js');
@@ -17,7 +17,7 @@ const { validator } = require('./middleware/validator.js');
 
 const { error404 } = require('./error-handlers/404.js');
 const { serverError } = require('./error-handlers/500.js');
-const { db } = require('./db.js');
+// const { db } = require('./db.js');
 
 
 // const { userRouter } = require('./routes/users');
