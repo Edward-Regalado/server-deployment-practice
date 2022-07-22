@@ -68,9 +68,12 @@ app.use(serverError);
 // FUNCTIONALITY TO GET START SERVER
 
 // db.sync();
-function start(port) {
+const start = (port) => {
   app.listen(port, () => console.log(`Server listening on port ${port}`));
-}
+};
+// function start(port) {
+//   app.listen(port, () => console.log(`Server listening on port ${port}`));
+// }
 
 module.exports = {
   app,
