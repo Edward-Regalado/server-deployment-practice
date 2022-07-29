@@ -35,4 +35,9 @@ it('Gets Student Data', async () => {
 
     expect(response.status).toBe(500);
   })
+
+  it('check ', async ()=> {
+    const response = await request.get('/check');
+    expect(response.status).toBe(200);
+  })
 });

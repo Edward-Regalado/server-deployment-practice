@@ -1,10 +1,10 @@
 // const { Sequelize, DataTypes } = require('sequelize');
 const { Sequelize } = require('sequelize');
 
-const { user } = require('./models/user');
+// const { user } = require('./models/user');
 const { car } = require('./models/car');
 const { pet } = require('./models/pet');
-const sequelize = require('sequelize');
+// const sequelize = require('sequelize');
 
 // create the database connection
 // 'sqlite::memory: is called a "connection string". In this example, we are using in-memory data storage.
@@ -32,7 +32,7 @@ switch (process.env.NODE_ENV) {
         connection_string = 'sqlite::memory';
         break;
     case 'staging':
-            // connection_string = `sqlite:${process.env.SQLITE_FILE ?? '../db'}`;
+        // connection_string = `sqlite:${process.env.SQLITE_FILE ?? '../db'}`;
         // break;
     default:
         connection_string = `sqlite:${process.env.SQLITE_FILE ?? '../db'}`;
@@ -52,8 +52,9 @@ const db = new Sequelize(connection_string, {
 db.sync();
 
 module.exports = {
-    db: sequelize,
-    User: user(db),
+    // db: sequelize,
+    db,
+    // User: user(db),
     Car: car(db),
     Pet: pet(db),
 };
