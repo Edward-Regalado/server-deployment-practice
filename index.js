@@ -2,6 +2,9 @@
 
 require('dotenv').config();
 
-const server = require('./server.js');
+const port = process.env.PORT ?? 3000;
+// console.log(process.env);
 
-server.start(process.env.PORT);
+// import our server.js file
+const server = require('./src/server.js');
+server.start(port);
